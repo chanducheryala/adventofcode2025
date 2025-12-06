@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Day3V1 {
+public class Day2V2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         List<Pair> ranges = new ArrayList<>();
@@ -39,11 +39,23 @@ public class Day3V1 {
 
     private static boolean isInValid(String str) {
         int n = str.length();
-        if(n % 2 == 1) return false;
-        String one = str.substring(0, n / 2);
-        String two = str.substring(n / 2);
-        return one.equals(two);
+        if (n == 1) return false;
+        for (int len = 1; len <= n / 2; len++) {
+            if (n % len != 0) continue;
+            boolean ok = true;
+            String first = str.substring(0, len);
+            for (int i = len; i < n; i += len) {
+                String substring = str.substring(i, i + len);
+                if (!substring.equals(first)) {
+                    ok = false;
+                    break;
+                }
+            }
+            if (ok) return true;
+        }
+        return false;
     }
+
 
     public static class Pair {
         private final Long x;
@@ -62,8 +74,4 @@ public class Day3V1 {
             return x + "-" + y;
         }
     }
-
-    /*
-    *     1st wrong -> 786 - too low
-    * */
 }
